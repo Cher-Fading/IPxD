@@ -46,11 +46,11 @@ const int cet_N = (sizeof(cet) / sizeof(int)) / 2;
 
 const int dist_bin3 = 100;
 const int nQuality = 14;
-const int nData = 4;
+const int nData = 8;
 
 char Qualitytitle[nQuality][300] = {"No hits in first two layers; expected hit in IBL and b-layer", "No hits in first two layers; expected hit in IBL and no expected hit in b-layer", "No hits in first two layers; no expected hit in IBL and expected hit in b-layer", "No hits in first two layers; no expected hit in IBL and b-layer", "No hit in IBL; expected hit in IBL", "No hit in IBL; no expected hit in IBL", "No hit in b-layer; expected hit in b-layer", "No hit in b-layer; no expected hit in b-layer", "Shared hit in both IBL and b-layer", "At least one shared pixel hits", "Two or more shared SCT hits", "Split hits in both IBL and b-layer", "Split pixel hit", "Good"};
-char files[nData][200] = {"WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_50.00_0.5.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_50.00_1.5.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_50.00_2.0.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_50.00_4.0.root"};
-char data[nData][50] = {"pT > 0.5 GeV", "pT > 1.5 GeV", "pT > 2.0 GeV", "pT > 4.0 GeV"};
+char files[nData][200] = {"WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_50.00_0.5.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_50.00_1.5.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_50.00_2.0.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_50.00_4.0.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_100.00_0.5.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_100.00_1.5.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_100.00_2.0.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_100.00_4.0.root"};
+char data[nData][50] = {"pT_trk > 0.5 GeV; pT_jet > 50 GeV", "pT_trk > 1.5 GeV; pT_jet > 50 GeV", "pT_trk > 2.0 GeV; pT_jet > 50 GeV", "pT_trk > 4.0 GeV; pT_jet > 50 GeV", "pT_trk > 0.5 GeV; pT_jet > 100 GeV", "pT_trk > 1.5 GeV; pT_jet > 100 GeV", "pT_trk > 2.0 GeV; pT_jet > 100 GeV", "pT_trk > 4.0 GeV; pT_jet > 100 GeV"};
 
 const int nFlav = 3;
 
@@ -88,7 +88,7 @@ void Draw_templates()
             cout << "m: " << m << "c: " << c << endl;
             for (int d = 0; d < nData; d++)
             {
-                fi = TFile::Open(Form(files[d], Type[1-m], c), "READ");
+                fi = TFile::Open(Form(files[d], Type[m], c), "READ");
                 cout << Form(files[d], Type[1-m], c) << endl;
                 //cout << fi << endl;
 
@@ -96,7 +96,7 @@ void Draw_templates()
                 {
                     //int q = 13;
                     TPad *pad0 = (TPad *)c0->cd();
-                    TH1F *h0 = (TH1F *)pad0->DrawFrame(-d0sig, 1e-5, d0sig, 1);
+                    TH1F *h0 = (TH1F *)pad0->DrawFrame(-40, 1e-5, 60, 1);
                     h0->GetXaxis()->SetTitle("d0 significance");
                     h0->GetYaxis()->SetTitle("Normalized Fraction");
                     h0->SetTitle(Form("D0 Significance Templates %s %s", Type[m], data[d]));
