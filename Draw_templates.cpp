@@ -89,7 +89,7 @@ void Draw_templates()
             for (int d = 0; d < nData; d++)
             {
                 fi = TFile::Open(Form(files[d], Type[m], c), "READ");
-                cout << Form(files[d], Type[1-m], c) << endl;
+                cout << Form(files[d], Type[m], c) << endl;
                 //cout << fi << endl;
 
                 for (int q = 0; q < nQuality; q++)
