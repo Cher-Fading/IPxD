@@ -262,7 +262,7 @@ void Draw_llr()
                 c0->SaveAs(Form("Unnormalized_llr_%s_%s_%s_%s_%.2f.pdf", dataType, data[d], Type[PbPb], Centrality, ptLim[pt]));
 
                 h0 = (TH1F *)p0->DrawFrame(-20, 3 * 1e-7, 40, 10);
-                h0->GetXaxis()->SetTitle("IP2D log(P_{b}/P_{u})");
+                h0->GetXaxis()->SetTitle("IP3D log(P_{b}/P_{u})");
                 h0->GetYaxis()->SetTitle("Normalized Weigthed Fraction");
                 h0->SetTitle(Form("LLR for IP2D Tagger %s", dataType));
                 h0->Draw();
