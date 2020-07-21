@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "AtlasUtils.C": "cpp"
+        "AtlasUtils.C": "cpp",
+        "bTagJF_grid.C": "cpp"
     }
 }

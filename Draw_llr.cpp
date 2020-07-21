@@ -36,7 +36,7 @@ const float max_disty = -0.75;
 const float min_distz = -200;
 const float max_distz = 200;
 
-const int myColor[] = {kBlue, kViolet, kMagenta, kPink, kOrange, kYellow, kSpring, kGreen, kTeal, kCyan, kAzure, kGray, kGray + 1, kGray + 3};
+const int myColor[] = {kBlue, kViolet, kMagenta, 418, kOrange, kYellow, kRed, kSpring,  kTeal, kCyan, kAzure, kGray, kGray + 1, kGray + 3};
 const float min_distxs = -20;
 const float max_distxs = 20;
 const float min_distys = -20;
@@ -119,7 +119,7 @@ void Draw_llr()
                     llr_c[i][d][pt] = (TH1F *)(file[0][pt]->Get(Form("cent_%d_%s_bu", i, leg[2]))->Clone());
                     llr_c[i][d][pt]->SetMarkerColor(myColor[3]);
                     llr_c[i][d][pt]->SetLineColor(myColor[3]);
-                    llr_c[i][d][pt]->SetLineStyle(3);
+                    llr_c[i][d][pt]->SetLineStyle(9);
                     llr_c[i][d][pt]->SetLineWidth(2);
                     llr_c[i][d][pt]->SetMarkerStyle(msize);
                     llr_c[i][d][pt]->SetMarkerSize(1);
@@ -127,7 +127,7 @@ void Draw_llr()
                     llr_u[i][d][pt] = (TH1F *)(file[0][pt]->Get(Form("cent_%d_%s_bu", i, leg[0]))->Clone());
                     llr_u[i][d][pt]->SetMarkerColor(myColor[6]);
                     llr_u[i][d][pt]->SetLineColor(myColor[6]);
-                    llr_u[i][d][pt]->SetLineStyle(10);
+                    llr_u[i][d][pt]->SetLineStyle(3);
                     llr_u[i][d][pt]->SetLineWidth(2);
                     llr_u[i][d][pt]->SetMarkerStyle(msize);
                     llr_u[i][d][pt]->SetMarkerSize(1);
@@ -143,7 +143,7 @@ void Draw_llr()
                     total_c[i][d][pt] = (TH1F *)(file[0][pt]->Get(Form("pT_cent_%d_%s", i, leg[2]))->Clone());
                     total_c[i][d][pt]->SetMarkerColor(myColor[3]);
                     total_c[i][d][pt]->SetLineColor(myColor[3]);
-                    total_c[i][d][pt]->SetLineStyle(3);
+                    total_c[i][d][pt]->SetLineStyle(9);
                     total_c[i][d][pt]->SetLineWidth(2);
                     total_c[i][d][pt]->SetMarkerStyle(msize);
                     total_c[i][d][pt]->SetMarkerSize(1);
@@ -151,7 +151,7 @@ void Draw_llr()
                     total_u[i][d][pt] = (TH1F *)(file[0][pt]->Get(Form("pT_cent_%d_%s", i, leg[0]))->Clone());
                     total_u[i][d][pt]->SetMarkerColor(myColor[6]);
                     total_u[i][d][pt]->SetLineColor(myColor[6]);
-                    total_u[i][d][pt]->SetLineStyle(10);
+                    total_u[i][d][pt]->SetLineStyle(3);
                     total_u[i][d][pt]->SetLineWidth(2);
                     total_u[i][d][pt]->SetMarkerStyle(msize);
                     total_u[i][d][pt]->SetMarkerSize(1);
@@ -170,7 +170,7 @@ void Draw_llr()
                     llr_c[i][d][pt] = (TH1F *)(file[d][pt]->Get(Form("ret_cent_%d_%s_bu", i, leg[2]))->Clone());
                     llr_c[i][d][pt]->SetMarkerColor(myColor[3]);
                     llr_c[i][d][pt]->SetLineColor(myColor[3]);
-                    llr_c[i][d][pt]->SetLineStyle(3);
+                    llr_c[i][d][pt]->SetLineStyle(9);
                     llr_c[i][d][pt]->SetLineWidth(2);
                     llr_c[i][d][pt]->SetMarkerStyle(msize);
                     llr_c[i][d][pt]->SetMarkerSize(1);
@@ -178,7 +178,7 @@ void Draw_llr()
                     llr_u[i][d][pt] = (TH1F *)(file[d][pt]->Get(Form("ret_cent_%d_%s_bu", i, leg[0]))->Clone());
                     llr_u[i][d][pt]->SetMarkerColor(myColor[6]);
                     llr_u[i][d][pt]->SetLineColor(myColor[6]);
-                    llr_u[i][d][pt]->SetLineStyle(10);
+                    llr_u[i][d][pt]->SetLineStyle(3);
                     llr_u[i][d][pt]->SetLineWidth(2);
                     llr_u[i][d][pt]->SetMarkerStyle(msize);
                     llr_u[i][d][pt]->SetMarkerSize(1);
@@ -194,7 +194,7 @@ void Draw_llr()
                     total_c[i][d][pt] = (TH1F *)(file[d][pt]->Get(Form("pT_cent_%d_%s", i, leg[2]))->Clone());
                     total_c[i][d][pt]->SetMarkerColor(myColor[3]);
                     total_c[i][d][pt]->SetLineColor(myColor[3]);
-                    total_c[i][d][pt]->SetLineStyle(3);
+                    total_c[i][d][pt]->SetLineStyle(9);
                     total_c[i][d][pt]->SetLineWidth(2);
                     total_c[i][d][pt]->SetMarkerStyle(msize);
                     total_c[i][d][pt]->SetMarkerSize(1);
@@ -202,7 +202,7 @@ void Draw_llr()
                     total_u[i][d][pt] = (TH1F *)(file[d][pt]->Get(Form("pT_cent_%d_%s", i, leg[0]))->Clone());
                     total_u[i][d][pt]->SetMarkerColor(myColor[6]);
                     total_u[i][d][pt]->SetLineColor(myColor[6]);
-                    total_u[i][d][pt]->SetLineStyle(10);
+                    total_u[i][d][pt]->SetLineStyle(3);
                     total_u[i][d][pt]->SetLineWidth(2);
                     total_u[i][d][pt]->SetMarkerStyle(msize);
                     total_u[i][d][pt]->SetMarkerSize(1);
@@ -252,9 +252,9 @@ void Draw_llr()
                     //myBoxText(0.7, 0.65 + 0.05 * f, 0.1, myColor[3 * f], 0, legend1[f], 0.3, myColor[3 * f], 1, false, 0.025);
                     int lsize = -1;
                     if (f == 0) lsize = 1;
-                    if (f == 1) lsize = 3;
-                    if (f == 2) lsize = 10;
-                    myBoxText(0.7, 0.55 + f * 0.05, 0.05, 0, 0, legend1[f], lsize, myColor[3 * f], 1, true,0.03,1000,true,false);
+                    if (f == 1) lsize = 10;
+                    if (f == 2) lsize = 3;
+                    myBoxText(0.6, 0.55 + f * 0.05, 0.05, 0, 0, legend1[f], lsize, myColor[3 * f], 1, true,0.05,1000,true,false);
                 }
                 c0->SaveAs(Form("Unnormalized_llr_%s_%s_%s_%s_%.2f.pdf", dataType, data[d], Type[PbPb], Centrality, ptLim[pt]));
 
@@ -282,9 +282,9 @@ h0 = (TH1F *)p0->DrawFrame(-20, 3*1e-7, 40, 10);
                     //myBoxText(0.7, 0.65 + 0.05 * f, 0.1, myColor[3 * f], 0, legend1[f], 0.3, myColor[3 * f], 1, false, 0.025);
                     int lsize = -1;
                     if (f == 0) lsize = 1;
-                    if (f == 1) lsize = 3;
-                    if (f == 2) lsize = 10;
-                    myBoxText(0.7, 0.55 + f * 0.05, 0.05, 0, 0, legend1[f], lsize, myColor[3 * f], 1, true,0.03,1000,true,false);
+                    if (f == 1) lsize = 10;
+                    if (f == 2) lsize = 3;
+                    myBoxText(0.6, 0.7 - f * 0.05, 0.05, 0, 0, legend1[f], lsize, myColor[3 * f], 1, true,0.05,1000,true,false);
                 }
                 c0->SaveAs(Form("Normalized_llr_%s_%s_%s_%s_%.2f.pdf", dataType, data[d], Type[PbPb], Centrality, ptLim[pt]));
 
