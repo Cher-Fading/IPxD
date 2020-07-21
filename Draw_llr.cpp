@@ -36,7 +36,7 @@ const float max_disty = -0.75;
 const float min_distz = -200;
 const float max_distz = 200;
 
-const int myColor[] = {kBlue, kViolet, kMagenta, 418, kOrange, kYellow, kRed, kSpring,  kTeal, kCyan, kAzure, kGray, kGray + 1, kGray + 3};
+const int myColor[] = {kBlue, kViolet, kMagenta, 418, kOrange, kYellow, kRed, kSpring, kTeal, kCyan, kAzure, kGray, kGray + 1, kGray + 3};
 const float min_distxs = -20;
 const float max_distxs = 20;
 const float min_distys = -20;
@@ -81,11 +81,11 @@ void Draw_llr()
     //TFile *out = TFile::Open(Form("%srapidity%s%.1f_LLR_IP_tot.root", dataType, Type[PbPb], eta_selection), "RECREATE");
 
     TH1F *llr_u[cet_N][nData + 1][2];
-    TGraph* llr_u_g[cet_N][nData + 1][2];
+    TGraph *llr_u_g[cet_N][nData + 1][2];
     TH1F *llr_b[cet_N][nData + 1][2];
-    TGraph* llr_b_g[cet_N][nData + 1][2];
+    TGraph *llr_b_g[cet_N][nData + 1][2];
     TH1F *llr_c[cet_N][nData + 1][2];
-    TGraph* llr_c_g[cet_N][nData + 1][2];
+    TGraph *llr_c_g[cet_N][nData + 1][2];
 
     TH1F *total_u[cet_N][nData + 1][2];
     TH1F *total_b[cet_N][nData + 1][2];
@@ -220,7 +220,7 @@ void Draw_llr()
             file[d][pt]->Close();
         }
     }
-    TCanvas *c0 = new TCanvas("c0", "c0",400,500);
+    TCanvas *c0 = new TCanvas("c0", "c0", 400, 500);
     //bllr
     for (int c = 0; c < cent_N; c++)
     {
@@ -231,8 +231,8 @@ void Draw_llr()
                 //int cent_N = PbPb ? cet_N : 1;
                 //int cent_N = 1;
                 TPad *p0 = (TPad *)c0->cd();
-                TH1F *h0 = (TH1F *)p0->DrawFrame(-20, 1.5*1e-4, 40, 1000);
-                h0->GetXaxis()->SetTitle("IP2D log(P_{b}/P_{u})");
+                TH1F *h0 = (TH1F *)p0->DrawFrame(-20, 1.5 * 1e-4, 40, 1000);
+                h0->GetXaxis()->SetTitle("IP3D log(P_{b}/P_{u})");
                 h0->GetYaxis()->SetTitle("Unnormalized Weigthed Counts");
                 h0->SetTitle(Form("LLR for IP2D Tagger %s", dataType));
                 h0->Draw();
@@ -251,14 +251,17 @@ void Draw_llr()
                 {
                     //myBoxText(0.7, 0.65 + 0.05 * f, 0.1, myColor[3 * f], 0, legend1[f], 0.3, myColor[3 * f], 1, false, 0.025);
                     int lsize = -1;
-                    if (f == 0) lsize = 1;
-                    if (f == 1) lsize = 10;
-                    if (f == 2) lsize = 3;
-                    myBoxText(0.6, 0.55 + f * 0.05, 0.05, 0, 0, legend1[f], lsize, myColor[3 * f], 1, true,0.05,1000,true,false);
+                    if (f == 0)
+                        lsize = 1;
+                    if (f == 1)
+                        lsize = 10;
+                    if (f == 2)
+                        lsize = 3;
+                    myBoxText(0.6, 0.55 + f * 0.05, 0.05, 0, 0, legend1[f], lsize, myColor[3 * f], 1, true, 0.05, 1000, true, false);
                 }
                 c0->SaveAs(Form("Unnormalized_llr_%s_%s_%s_%s_%.2f.pdf", dataType, data[d], Type[PbPb], Centrality, ptLim[pt]));
 
-h0 = (TH1F *)p0->DrawFrame(-20, 3*1e-7, 40, 10);
+                h0 = (TH1F *)p0->DrawFrame(-20, 3 * 1e-7, 40, 10);
                 h0->GetXaxis()->SetTitle("IP2D log(P_{b}/P_{u})");
                 h0->GetYaxis()->SetTitle("Normalized Weigthed Fraction");
                 h0->SetTitle(Form("LLR for IP2D Tagger %s", dataType));
@@ -271,23 +274,25 @@ h0 = (TH1F *)p0->DrawFrame(-20, 3*1e-7, 40, 10);
                 myText(0.4, 0.85, kBlack, Form("%s %s", Type[PbPb], Centrality), 0.04);
                 myText(0.4, 0.8, kBlack, Form("pT_jet > %.0f GeV", ptLim[pt]), 0.04);
                 myText(0.4, 0.75, kBlack, dataTitle, 0.04);
-                llr_u[c][d][pt]->Scale(1./llr_u[c][d][pt]->GetSumOfWeights());
+                llr_u[c][d][pt]->Scale(1. / llr_u[c][d][pt]->GetSumOfWeights());
                 llr_u[c][d][pt]->Draw("SAME hist");
-                llr_b[c][d][pt]->Scale(1./llr_b[c][d][pt]->GetSumOfWeights());
+                llr_b[c][d][pt]->Scale(1. / llr_b[c][d][pt]->GetSumOfWeights());
                 llr_b[c][d][pt]->Draw("SAME hist");
-                llr_c[c][d][pt]->Scale(1./llr_c[c][d][pt]->GetSumOfWeights());
+                llr_c[c][d][pt]->Scale(1. / llr_c[c][d][pt]->GetSumOfWeights());
                 llr_c[c][d][pt]->Draw("SAME hist");
                 for (int f = 0; f < 3; f++)
                 {
                     //myBoxText(0.7, 0.65 + 0.05 * f, 0.1, myColor[3 * f], 0, legend1[f], 0.3, myColor[3 * f], 1, false, 0.025);
                     int lsize = -1;
-                    if (f == 0) lsize = 1;
-                    if (f == 1) lsize = 10;
-                    if (f == 2) lsize = 3;
-                    myBoxText(0.6, 0.7 - f * 0.05, 0.05, 0, 0, legend1[f], lsize, myColor[3 * f], 1, true,0.05,1000,true,false);
+                    if (f == 0)
+                        lsize = 1;
+                    if (f == 1)
+                        lsize = 10;
+                    if (f == 2)
+                        lsize = 3;
+                    myBoxText(0.6, 0.7 - f * 0.05, 0.05, 0, 0, legend1[f], lsize, myColor[3 * f], 1, true, 0.05, 1000, true, false);
                 }
                 c0->SaveAs(Form("Normalized_llr_%s_%s_%s_%s_%.2f.pdf", dataType, data[d], Type[PbPb], Centrality, ptLim[pt]));
-
             }
         }
     }
