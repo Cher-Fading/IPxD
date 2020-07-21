@@ -231,7 +231,7 @@ void Draw_llr()
                 //int cent_N = PbPb ? cet_N : 1;
                 //int cent_N = 1;
                 TPad *p0 = (TPad *)c0->cd();
-                TH1F *h0 = (TH1F *)p0->DrawFrame(-20, 1e-8, 40, 500);
+                TH1F *h0 = (TH1F *)p0->DrawFrame(-20, 1.5*1e-4, 40, 500);
                 h0->GetXaxis()->SetTitle("IP2D log(P_{b}/P_{u})");
                 h0->GetYaxis()->SetTitle("Unnormalized Weigthed Counts");
                 h0->SetTitle(Form("LLR for IP2D Tagger %s", dataType));
@@ -258,7 +258,7 @@ void Draw_llr()
                 }
                 c0->SaveAs(Form("Unnormalized_llr_%s_%s_%s_%s_%.2f.pdf", dataType, data[d], Type[PbPb], Centrality, ptLim[pt]));
 
-h0 = (TH1F *)p0->DrawFrame(-20, 1e-9, 40, 1);
+h0 = (TH1F *)p0->DrawFrame(-20, 3*1e-7, 40, 1);
                 h0->GetXaxis()->SetTitle("IP2D log(P_{b}/P_{u})");
                 h0->GetYaxis()->SetTitle("Normalized Weigthed Fraction");
                 h0->SetTitle(Form("LLR for IP2D Tagger %s", dataType));
