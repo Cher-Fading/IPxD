@@ -108,7 +108,7 @@ void Draw_llr()
             {
                 if (d == nData)
                 {
-                    llr_b[i][d][pt] = (TH1F *)(file[0][pt]->Get(Form("cent_%d_%s_bu", i, leg[1]))->Clone());
+                    llr_b[i][d][pt] = (TH1F *)(file[0][pt]->Get(Form("cent_%d_%s_bu", i, leg[0]))->Clone());
                     llr_b[i][d][pt]->SetMarkerColor(myColor[0]);
                     llr_b[i][d][pt]->SetLineColor(myColor[0]);
                     llr_b[i][d][pt]->SetLineStyle(1);
@@ -116,7 +116,7 @@ void Draw_llr()
                     llr_b[i][d][pt]->SetMarkerStyle(msize);
                     llr_b[i][d][pt]->SetMarkerSize(1);
 
-                    llr_c[i][d][pt] = (TH1F *)(file[0][pt]->Get(Form("cent_%d_%s_bu", i, leg[2]))->Clone());
+                    llr_c[i][d][pt] = (TH1F *)(file[0][pt]->Get(Form("cent_%d_%s_bu", i, leg[1]))->Clone());
                     llr_c[i][d][pt]->SetMarkerColor(myColor[3]);
                     llr_c[i][d][pt]->SetLineColor(myColor[3]);
                     llr_c[i][d][pt]->SetLineStyle(9);
@@ -124,7 +124,7 @@ void Draw_llr()
                     llr_c[i][d][pt]->SetMarkerStyle(msize);
                     llr_c[i][d][pt]->SetMarkerSize(1);
 
-                    llr_u[i][d][pt] = (TH1F *)(file[0][pt]->Get(Form("cent_%d_%s_bu", i, leg[0]))->Clone());
+                    llr_u[i][d][pt] = (TH1F *)(file[0][pt]->Get(Form("cent_%d_%s_bu", i, leg[2]))->Clone());
                     llr_u[i][d][pt]->SetMarkerColor(myColor[6]);
                     llr_u[i][d][pt]->SetLineColor(myColor[6]);
                     llr_u[i][d][pt]->SetLineStyle(3);
@@ -132,7 +132,7 @@ void Draw_llr()
                     llr_u[i][d][pt]->SetMarkerStyle(msize);
                     llr_u[i][d][pt]->SetMarkerSize(1);
 
-                    total_b[i][d][pt] = (TH1F *)(file[0][pt]->Get(Form("pT_cent_%d_%s", i, leg[1]))->Clone());
+                    total_b[i][d][pt] = (TH1F *)(file[0][pt]->Get(Form("pT_cent_%d_%s", i, leg[0]))->Clone());
                     total_b[i][d][pt]->SetMarkerColor(myColor[0]);
                     total_b[i][d][pt]->SetLineColor(myColor[0]);
                     total_b[i][d][pt]->SetLineStyle(1);
@@ -140,7 +140,7 @@ void Draw_llr()
                     total_b[i][d][pt]->SetMarkerStyle(msize);
                     total_b[i][d][pt]->SetMarkerSize(1);
 
-                    total_c[i][d][pt] = (TH1F *)(file[0][pt]->Get(Form("pT_cent_%d_%s", i, leg[2]))->Clone());
+                    total_c[i][d][pt] = (TH1F *)(file[0][pt]->Get(Form("pT_cent_%d_%s", i, leg[1]))->Clone());
                     total_c[i][d][pt]->SetMarkerColor(myColor[3]);
                     total_c[i][d][pt]->SetLineColor(myColor[3]);
                     total_c[i][d][pt]->SetLineStyle(9);
@@ -148,7 +148,7 @@ void Draw_llr()
                     total_c[i][d][pt]->SetMarkerStyle(msize);
                     total_c[i][d][pt]->SetMarkerSize(1);
 
-                    total_u[i][d][pt] = (TH1F *)(file[0][pt]->Get(Form("pT_cent_%d_%s", i, leg[0]))->Clone());
+                    total_u[i][d][pt] = (TH1F *)(file[0][pt]->Get(Form("pT_cent_%d_%s", i, leg[2]))->Clone());
                     total_u[i][d][pt]->SetMarkerColor(myColor[6]);
                     total_u[i][d][pt]->SetLineColor(myColor[6]);
                     total_u[i][d][pt]->SetLineStyle(3);
@@ -159,7 +159,7 @@ void Draw_llr()
                 else
                 {
 
-                    llr_b[i][d][pt] = (TH1F *)(file[d][pt]->Get(Form("ret_cent_%d_%s_bu", i, leg[1]))->Clone());
+                    llr_b[i][d][pt] = (TH1F *)(file[d][pt]->Get(Form("ret_cent_%d_%s_bu", i, leg[0]))->Clone());
                     llr_b[i][d][pt]->SetMarkerColor(myColor[0]);
                     llr_b[i][d][pt]->SetLineColor(myColor[0]);
                     llr_b[i][d][pt]->SetLineStyle(1);
@@ -167,7 +167,7 @@ void Draw_llr()
                     llr_b[i][d][pt]->SetMarkerStyle(msize);
                     llr_b[i][d][pt]->SetMarkerSize(1);
 
-                    llr_c[i][d][pt] = (TH1F *)(file[d][pt]->Get(Form("ret_cent_%d_%s_bu", i, leg[2]))->Clone());
+                    llr_c[i][d][pt] = (TH1F *)(file[d][pt]->Get(Form("ret_cent_%d_%s_bu", i, leg[1]))->Clone());
                     llr_c[i][d][pt]->SetMarkerColor(myColor[3]);
                     llr_c[i][d][pt]->SetLineColor(myColor[3]);
                     llr_c[i][d][pt]->SetLineStyle(9);
@@ -175,7 +175,7 @@ void Draw_llr()
                     llr_c[i][d][pt]->SetMarkerStyle(msize);
                     llr_c[i][d][pt]->SetMarkerSize(1);
 
-                    llr_u[i][d][pt] = (TH1F *)(file[d][pt]->Get(Form("ret_cent_%d_%s_bu", i, leg[0]))->Clone());
+                    llr_u[i][d][pt] = (TH1F *)(file[d][pt]->Get(Form("ret_cent_%d_%s_bu", i, leg[2]))->Clone());
                     llr_u[i][d][pt]->SetMarkerColor(myColor[6]);
                     llr_u[i][d][pt]->SetLineColor(myColor[6]);
                     llr_u[i][d][pt]->SetLineStyle(3);
@@ -183,7 +183,7 @@ void Draw_llr()
                     llr_u[i][d][pt]->SetMarkerStyle(msize);
                     llr_u[i][d][pt]->SetMarkerSize(1);
 
-                    total_b[i][d][pt] = (TH1F *)(file[d][pt]->Get(Form("pT_cent_%d_%s", i, leg[1]))->Clone());
+                    total_b[i][d][pt] = (TH1F *)(file[d][pt]->Get(Form("pT_cent_%d_%s", i, leg[0]))->Clone());
                     total_b[i][d][pt]->SetMarkerColor(myColor[0]);
                     total_b[i][d][pt]->SetLineColor(myColor[0]);
                     total_b[i][d][pt]->SetLineStyle(1);
@@ -191,7 +191,7 @@ void Draw_llr()
                     total_b[i][d][pt]->SetMarkerStyle(msize);
                     total_b[i][d][pt]->SetMarkerSize(1);
 
-                    total_c[i][d][pt] = (TH1F *)(file[d][pt]->Get(Form("pT_cent_%d_%s", i, leg[2]))->Clone());
+                    total_c[i][d][pt] = (TH1F *)(file[d][pt]->Get(Form("pT_cent_%d_%s", i, leg[1]))->Clone());
                     total_c[i][d][pt]->SetMarkerColor(myColor[3]);
                     total_c[i][d][pt]->SetLineColor(myColor[3]);
                     total_c[i][d][pt]->SetLineStyle(9);
@@ -199,7 +199,7 @@ void Draw_llr()
                     total_c[i][d][pt]->SetMarkerStyle(msize);
                     total_c[i][d][pt]->SetMarkerSize(1);
 
-                    total_u[i][d][pt] = (TH1F *)(file[d][pt]->Get(Form("pT_cent_%d_%s", i, leg[0]))->Clone());
+                    total_u[i][d][pt] = (TH1F *)(file[d][pt]->Get(Form("pT_cent_%d_%s", i, leg[2]))->Clone());
                     total_u[i][d][pt]->SetMarkerColor(myColor[6]);
                     total_u[i][d][pt]->SetLineColor(myColor[6]);
                     total_u[i][d][pt]->SetLineStyle(3);
