@@ -241,9 +241,10 @@ void Draw_llr()
                 gPad->SetGrid();
                 c0->SetLogy();
                 const char *Centrality = PbPb ? Form(" %d %% %d %%", 10 * cet[2 * c], 10 * cet[2 * c + 1]) : "";
-                myText(0.4, 0.85, kBlack, Form("%s %s", Type[PbPb], Centrality), 0.04);
-                myText(0.4, 0.8, kBlack, Form("pT_jet > %.0f GeV", ptLim[pt]), 0.04);
-                myText(0.4, 0.75, kBlack, dataTitle, 0.04);
+                myText(0.3, 0.85, kBlack, Form("%s %s", Type[PbPb], Centrality), 0.03);
+                myText(0.3, 0.8, kBlack, Form("pT_jet > %.0f GeV", ptLim[pt]), 0.03);
+                myText(0.3, 0.75, kBlack, dataTitle, 0.03);
+                myText(0.3, 0.7, kBlack, data[d], 0.03);
                 llr_u[c][d][pt]->Draw("SAME hist");
                 llr_b[c][d][pt]->Draw("SAME hist");
                 llr_c[c][d][pt]->Draw("SAME hist");
@@ -257,7 +258,7 @@ void Draw_llr()
                         lsize = 10;
                     if (f == 2)
                         lsize = 3;
-                    myBoxText(0.6, 0.55 + f * 0.05, 0.05, 0, 0, legend1[f], lsize, myColor[3 * f], 1, true, 0.05, 1000, true, false);
+                    myBoxText(0.7, 0.55 + f * 0.05, 0.05, 0, 0, legend1[f], lsize, myColor[3 * f], 1, true, 0.05, 1000, true, false);
                 }
                 c0->SaveAs(Form("Unnormalized_llr_%s_%s_%s_%s_%.2f.pdf", dataType, data[d], Type[PbPb], Centrality, ptLim[pt]));
 
@@ -271,9 +272,10 @@ void Draw_llr()
                 gPad->SetGrid();
                 c0->SetLogy();
                 //const char *Centrality = PbPb ? Form(" %d %% %d %%", 10 * cet[2 * c], 10 * cet[2 * c + 1]) : "";
-                myText(0.4, 0.85, kBlack, Form("%s %s", Type[PbPb], Centrality), 0.04);
-                myText(0.4, 0.8, kBlack, Form("pT_jet > %.0f GeV", ptLim[pt]), 0.04);
-                myText(0.4, 0.75, kBlack, dataTitle, 0.04);
+                myText(0.3, 0.85, kBlack, Form("%s %s", Type[PbPb], Centrality), 0.03);
+                myText(0.3, 0.8, kBlack, Form("pT_jet > %.0f GeV", ptLim[pt]), 0.03);
+                myText(0.3, 0.75, kBlack, dataTitle, 0.03);
+                myText(0.3, 0.7, kBlack, data[d], 0.03);
                 llr_u[c][d][pt]->Scale(1. / llr_u[c][d][pt]->GetSumOfWeights());
                 llr_u[c][d][pt]->Draw("SAME hist");
                 llr_b[c][d][pt]->Scale(1. / llr_b[c][d][pt]->GetSumOfWeights());
@@ -290,7 +292,7 @@ void Draw_llr()
                         lsize = 10;
                     if (f == 2)
                         lsize = 3;
-                    myBoxText(0.6, 0.7 - f * 0.05, 0.05, 0, 0, legend1[f], lsize, myColor[3 * f], 1, true, 0.05, 1000, true, false);
+                    myBoxText(0.7, 0.7 - f * 0.05, 0.05, 0, 0, legend1[f], lsize, myColor[3 * f], 1, true, 0.05, 1000, true, false);
                 }
                 c0->SaveAs(Form("Normalized_llr_%s_%s_%s_%s_%.2f.pdf", dataType, data[d], Type[PbPb], Centrality, ptLim[pt]));
             }
