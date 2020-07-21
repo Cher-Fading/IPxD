@@ -220,7 +220,7 @@ void Draw_llr()
             file[d][pt]->Close();
         }
     }
-    TCanvas *c0 = new TCanvas("c0", "c0");
+    TCanvas *c0 = new TCanvas("c0", "c0",400,500);
     //bllr
     for (int c = 0; c < cent_N; c++)
     {
@@ -231,7 +231,7 @@ void Draw_llr()
                 //int cent_N = PbPb ? cet_N : 1;
                 //int cent_N = 1;
                 TPad *p0 = (TPad *)c0->cd();
-                TH1F *h0 = (TH1F *)p0->DrawFrame(-20, 1.5*1e-4, 40, 500);
+                TH1F *h0 = (TH1F *)p0->DrawFrame(-20, 1.5*1e-4, 40, 1000);
                 h0->GetXaxis()->SetTitle("IP2D log(P_{b}/P_{u})");
                 h0->GetYaxis()->SetTitle("Unnormalized Weigthed Counts");
                 h0->SetTitle(Form("LLR for IP2D Tagger %s", dataType));
@@ -241,9 +241,9 @@ void Draw_llr()
                 gPad->SetGrid();
                 c0->SetLogy();
                 const char *Centrality = PbPb ? Form(" %d %% %d %%", 10 * cet[2 * c], 10 * cet[2 * c + 1]) : "";
-                myText(0.6, 0.85, kBlack, Form("%s %s", Type[PbPb], Centrality), 0.04);
-                myText(0.6, 0.8, kBlack, Form("pT_jet > %.0f GeV", ptLim[pt]), 0.04);
-                myText(0.6, 0.75, kBlack, dataTitle, 0.04);
+                myText(0.4, 0.85, kBlack, Form("%s %s", Type[PbPb], Centrality), 0.04);
+                myText(0.4, 0.8, kBlack, Form("pT_jet > %.0f GeV", ptLim[pt]), 0.04);
+                myText(0.4, 0.75, kBlack, dataTitle, 0.04);
                 llr_u[c][d][pt]->Draw("SAME hist");
                 llr_b[c][d][pt]->Draw("SAME hist");
                 llr_c[c][d][pt]->Draw("SAME hist");
@@ -254,11 +254,11 @@ void Draw_llr()
                     if (f == 0) lsize = 1;
                     if (f == 1) lsize = 3;
                     if (f == 2) lsize = 10;
-                    myBoxText(0.8, 0.55 + f * 0.05, 0.05, 0, 0, legend1[f], lsize, myColor[3 * f], 1, true,0.03,1000,true,false);
+                    myBoxText(0.7, 0.55 + f * 0.05, 0.05, 0, 0, legend1[f], lsize, myColor[3 * f], 1, true,0.03,1000,true,false);
                 }
                 c0->SaveAs(Form("Unnormalized_llr_%s_%s_%s_%s_%.2f.pdf", dataType, data[d], Type[PbPb], Centrality, ptLim[pt]));
 
-h0 = (TH1F *)p0->DrawFrame(-20, 3*1e-7, 40, 1);
+h0 = (TH1F *)p0->DrawFrame(-20, 3*1e-7, 40, 10);
                 h0->GetXaxis()->SetTitle("IP2D log(P_{b}/P_{u})");
                 h0->GetYaxis()->SetTitle("Normalized Weigthed Fraction");
                 h0->SetTitle(Form("LLR for IP2D Tagger %s", dataType));
@@ -268,9 +268,9 @@ h0 = (TH1F *)p0->DrawFrame(-20, 3*1e-7, 40, 1);
                 gPad->SetGrid();
                 c0->SetLogy();
                 //const char *Centrality = PbPb ? Form(" %d %% %d %%", 10 * cet[2 * c], 10 * cet[2 * c + 1]) : "";
-                myText(0.6, 0.85, kBlack, Form("%s %s", Type[PbPb], Centrality), 0.04);
-                myText(0.6, 0.8, kBlack, Form("pT_jet > %.0f GeV", ptLim[pt]), 0.04);
-                myText(0.6, 0.75, kBlack, dataTitle, 0.04);
+                myText(0.4, 0.85, kBlack, Form("%s %s", Type[PbPb], Centrality), 0.04);
+                myText(0.4, 0.8, kBlack, Form("pT_jet > %.0f GeV", ptLim[pt]), 0.04);
+                myText(0.4, 0.75, kBlack, dataTitle, 0.04);
                 llr_u[c][d][pt]->Scale(1./llr_u[c][d][pt]->GetSumOfWeights());
                 llr_u[c][d][pt]->Draw("SAME hist");
                 llr_b[c][d][pt]->Scale(1./llr_b[c][d][pt]->GetSumOfWeights());
@@ -284,7 +284,7 @@ h0 = (TH1F *)p0->DrawFrame(-20, 3*1e-7, 40, 1);
                     if (f == 0) lsize = 1;
                     if (f == 1) lsize = 3;
                     if (f == 2) lsize = 10;
-                    myBoxText(0.8, 0.55 + f * 0.05, 0.05, 0, 0, legend1[f], lsize, myColor[3 * f], 1, true,0.03,1000,true,false);
+                    myBoxText(0.7, 0.55 + f * 0.05, 0.05, 0, 0, legend1[f], lsize, myColor[3 * f], 1, true,0.03,1000,true,false);
                 }
                 c0->SaveAs(Form("Normalized_llr_%s_%s_%s_%s_%.2f.pdf", dataType, data[d], Type[PbPb], Centrality, ptLim[pt]));
 
