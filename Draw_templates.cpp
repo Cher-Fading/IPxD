@@ -49,10 +49,10 @@ const int nQuality = 14;
 const int nData = 8;
 
 char Qualitytitle[nQuality][300] = {"No hits in first two layers; expected hit in IBL and b-layer", "No hits in first two layers; expected hit in IBL and no expected hit in b-layer", "No hits in first two layers; no expected hit in IBL and expected hit in b-layer", "No hits in first two layers; no expected hit in IBL and b-layer", "No hit in IBL; expected hit in IBL", "No hit in IBL; no expected hit in IBL", "No hit in b-layer; expected hit in b-layer", "No hit in b-layer; no expected hit in b-layer", "Shared hit in both IBL and b-layer", "At least one shared pixel hits", "Two or more shared SCT hits", "Split hits in both IBL and b-layer", "Split pixel hit", "Good"};
-char files[nData][200] = {"WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_50.00_0.5.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_50.00_1.5.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_50.00_2.0.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_50.00_4.0.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_100.00_0.5.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_100.00_1.5.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_100.00_2.0.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_100.00_4.0.root"};
-char data[nData][50] = {"pT_trk > 0.5 GeV; pT_jet > 50 GeV", "pT_trk > 1.5 GeV; pT_jet > 50 GeV", "pT_trk > 2.0 GeV; pT_jet > 50 GeV", "pT_trk > 4.0 GeV; pT_jet > 50 GeV", "pT_trk > 0.5 GeV; pT_jet > 100 GeV", "pT_trk > 1.5 GeV; pT_jet > 100 GeV", "pT_trk > 2.0 GeV; pT_jet > 100 GeV", "pT_trk > 4.0 GeV; pT_jet > 100 GeV"};
-//char files[nData][200] = {"BTagCalibRUN2Onl-08-40.root"};
-//char data[nData][50] = {"Calibration, pT_jet >  20 GeV"};
+//char files[nData][200] = {"WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_50.00_0.5.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_50.00_1.5.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_50.00_2.0.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_50.00_4.0.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_100.00_0.5.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_100.00_1.5.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_100.00_2.0.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_100.00_4.0.root"};
+//char data[nData][50] = {"pT_trk > 0.5 GeV; pT_jet > 50 GeV", "pT_trk > 1.5 GeV; pT_jet > 50 GeV", "pT_trk > 2.0 GeV; pT_jet > 50 GeV", "pT_trk > 4.0 GeV; pT_jet > 50 GeV", "pT_trk > 0.5 GeV; pT_jet > 100 GeV", "pT_trk > 1.5 GeV; pT_jet > 100 GeV", "pT_trk > 2.0 GeV; pT_jet > 100 GeV", "pT_trk > 4.0 GeV; pT_jet > 100 GeV"};
+char files[nData][200] = {"BTagCalibRUN2Onl-08-40.root"};
+char data[nData][50] = {"Calibration, pT_jet >  20 GeV"};
 const int nFlav = 3;
 
 const char leg[nFlav][10] = {"B", "C", "U"};
@@ -97,8 +97,8 @@ void Draw_templates()
         //for (int d = 0; d < nData; d++)
         //{
         int d = 0;
-        fi = TFile::Open(Form(files[d], Type[m], c), "READ");
-        //fi = TFile::Open(files[d], "READ");
+        //fi = TFile::Open(Form(files[d], Type[m], c), "READ");
+        fi = TFile::Open(files[d], "READ");
         cout << Form(files[d], Type[m], c) << endl;
         //cout << fi << endl;
 
@@ -116,7 +116,7 @@ void Draw_templates()
         myText(0.6, 0.75, kBlack, Form("Track Grade: %s", Qualitytitle[q]), 0.025);
 
         pad1[nFlav] = (TPad *)c1->cd(nFlav + 1);
-        h1[nFlav] = (TH1F *)pad1[nFlav]->DrawFrame(-20, 1e-6, 40, 10);
+        h1[nFlav] = (TH1F *)pad1[nFlav]->DrawFrame(-40, 1e-6, 60, 10);
         h1[nFlav]->GetXaxis()->SetTitle("z0 significance");
         h1[nFlav]->GetYaxis()->SetTitle("Normalized Fraction");
         h1[nFlav]->SetTitle(Form("Z0 Significance Templates %s %s", Type[m], data[d]));
@@ -129,8 +129,8 @@ void Draw_templates()
         for (int f = 0; f < nFlav; f++)
         {
             c0->cd();
-            graph = (TH1D *)(fi->Get(Form("IP2D/AntiKt4HI/%s/%s/SipA0", leg[f], Quality[q]))->Clone());
-            //graph = (TH1D *)(fi->Get(Form("IP2D/AntiKt4EMTopo/%s/%s/SipA0", leg[f], Quality[q]))->Clone());
+            //graph = (TH1D *)(fi->Get(Form("IP2D/AntiKt4HI/%s/%s/SipA0", leg[f], Quality[q]))->Clone());
+            graph = (TH1D *)(fi->Get(Form("IP2D/AntiKt4EMTopo/%s/%s/SipA0", leg[f], Quality[q]))->Clone());
 
             graph->Scale(1. / graph->GetSumOfWeights());
             graph->SetMarkerColor(myColor[f * 3]);
@@ -143,20 +143,26 @@ void Draw_templates()
             pad1[f] = (TPad *)c1->cd(f + 1);
             gPad->SetLogy(0);
             gPad->SetLogz(1);
-            h1[f] = (TH1F *)pad1[f]->DrawFrame(-20, -20, 40, 40);
+            h1[f] = (TH1F *)pad1[f]->DrawFrame(-40, -40, 60, 60);
+            //gStyle->SetTextFont(7);
             h1[f]->GetXaxis()->SetTitle("d0 significance");
             h1[f]->GetYaxis()->SetTitle("z0 significance");
             h1[f]->SetTitle(Form("Z0 and d0 Significance Templates of %s %s", Type[m], data[d]));
-            h1[f]->Draw();
+            //h1[f]->Draw();
 
-            graph2 = (TH2D *)(fi->Get(Form("IP3D/AntiKt4HI/%s/%s/Sip3D", leg[f], Quality[q]))->Clone());
-            //graph2 = (TH2D *)(fi->Get(Form("IP3D/AntiKt4EMTopo/%s/%s/Sip3D", leg[f], Quality[q]))->Clone());
+            //graph2 = (TH2D *)(fi->Get(Form("IP3D/AntiKt4HI/%s/%s/Sip3D", leg[f], Quality[q]))->Clone());
+            graph2 = (TH2D *)(fi->Get(Form("IP3D/AntiKt4EMTopo/%s/%s/Sip3D", leg[f], Quality[q]))->Clone());
 
             graph2->Scale(1. / graph2->GetSumOfWeights());
             //graph2->SetMarkerColor(myColor[f]);
             //graph2->SetLineColor(myColor[f]);
             //graph2->SetMarkerStyle(1);
             graph2->Draw("SAME colz");
+            graph2->GetZaxis()->SetTitle("Normalized Fraction");
+            graph2->GetZaxis()->SetRangeUser(1e-4,1);
+            graph2->GetZaxis()->SetTitleSize(.15);
+            graph2->GetZaxis()->SetLabelSize(.02);
+            //c1->cd(f + 1);
             myText(0.5, 0.65, kBlack, legends[f], 0.03);
             myText(0.5, 0.8, kBlack, Centrality.c_str(), 0.03);
             myText(0.5, 0.75, kBlack, data[d], 0.03);
