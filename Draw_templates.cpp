@@ -51,11 +51,12 @@ const int nData = 8;
 char Qualitytitle[nQuality][300] = {"No hits in first two layers; expected hit in IBL and b-layer", "No hits in first two layers; expected hit in IBL and no expected hit in b-layer", "No hits in first two layers; no expected hit in IBL and expected hit in b-layer", "No hits in first two layers; no expected hit in IBL and b-layer", "No hit in IBL; expected hit in IBL", "No hit in IBL; no expected hit in IBL", "No hit in b-layer; expected hit in b-layer", "No hit in b-layer; no expected hit in b-layer", "Shared hit in both IBL and b-layer", "At least one shared pixel hits", "Two or more shared SCT hits", "Split hits in both IBL and b-layer", "Split pixel hit", "Good"};
 char files[nData][200] = {"WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_50.00_0.5.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_50.00_1.5.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_50.00_2.0.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_50.00_4.0.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_100.00_0.5.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_100.00_1.5.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_100.00_2.0.root", "WorkingDefault%s_cent_%d_ip3d_tuning_hi_50k_100.00_4.0.root"};
 char data[nData][50] = {"pT_trk > 0.5 GeV; pT_jet > 50 GeV", "pT_trk > 1.5 GeV; pT_jet > 50 GeV", "pT_trk > 2.0 GeV; pT_jet > 50 GeV", "pT_trk > 4.0 GeV; pT_jet > 50 GeV", "pT_trk > 0.5 GeV; pT_jet > 100 GeV", "pT_trk > 1.5 GeV; pT_jet > 100 GeV", "pT_trk > 2.0 GeV; pT_jet > 100 GeV", "pT_trk > 4.0 GeV; pT_jet > 100 GeV"};
-
+//char files[nData][200] = {"BTagCalibRUN2Onl-08-40.root"};
+//char data[nData][50] = {"Calibration, pT_jet >  20 GeV"};
 const int nFlav = 3;
 
-const char leg[nFlav][10] = {"C","U","B"};
-const char legends[nFlav][100] = {"c-jet","Light Jet","b-jet"};
+const char leg[nFlav][10] = {"B", "C", "U"};
+const char legends[nFlav][100] = {"b-jet", "c-jet", "Light Jet"};
 
 //const char* dataType = "WorkingDefault";
 //const bool PbPb = true;
@@ -74,77 +75,113 @@ void Draw_templates()
 {
     TFile *fi;
     TH1D *graph;
+    TH2D *graph2;
+    TH1D *graph3;
+    TPad *pad1[nFlav + 1];
+    TH1F *h1[nFlav + 1];
+    TH1D *flav;
 
     TCanvas *c0 = new TCanvas("c0", "c0");
-    //TCanvas *c1 = new TCanvas("c1", "c1");
+    TCanvas *c1 = new TCanvas("c1", "c1");
+    c1->Divide(2, 2);
 
-    for (int m = 0; m < 2; m++)
+    //for (int m = 0; m < 2; m++)
+    //{
+    int m = 0;
+    int cent_N = m ? cet_N : 1;
+    for (int c = 0; c < cent_N; c++)
     {
-        int cent_N = m ? cet_N : 1;
-        for (int c = 0; c < cent_N; c++)
+        std::string Centrality = m ? Form("Overlay %d %% to %d %%", 10 * cet[2 * c], 10 * cet[2 * c + 1]) : "pp";
+        cout << Centrality << endl;
+        cout << "m: " << m << "c: " << c << endl;
+        //for (int d = 0; d < nData; d++)
+        //{
+        int d = 0;
+        fi = TFile::Open(Form(files[d], Type[m], c), "READ");
+        //fi = TFile::Open(files[d], "READ");
+        cout << Form(files[d], Type[m], c) << endl;
+        //cout << fi << endl;
+
+        //for (int q = 0; q < nQuality; q++)
+        //{
+        int q = 13;
+        TPad *pad0 = (TPad *)c0->cd();
+        TH1F *h0 = (TH1F *)pad0->DrawFrame(-20, 1e-5, 40, 1);
+        h0->GetXaxis()->SetTitle("d0 significance");
+        h0->GetYaxis()->SetTitle("Normalized Fraction");
+        h0->SetTitle(Form("D0 Significance Templates %s %s", Type[m], data[d]));
+        h0->Draw();
+        myText(0.6, 0.8, kBlack, Centrality.c_str(), 0.025);
+        myText(0.6, 0.7, kBlack, data[d], 0.025);
+        myText(0.6, 0.75, kBlack, Form("Track Grade: %s", Qualitytitle[q]), 0.025);
+
+        pad1[nFlav] = (TPad *)c1->cd(nFlav + 1);
+        h1[nFlav] = (TH1F *)pad1[nFlav]->DrawFrame(-20, 1e-6, 40, 10);
+        h1[nFlav]->GetXaxis()->SetTitle("z0 significance");
+        h1[nFlav]->GetYaxis()->SetTitle("Normalized Fraction");
+        h1[nFlav]->SetTitle(Form("Z0 Significance Templates %s %s", Type[m], data[d]));
+        h1[nFlav]->Draw();
+        gPad->SetLogy(1);
+        myText(0.6, 0.8, kBlack, Centrality.c_str(), 0.025);
+        myText(0.6, 0.7, kBlack, data[d], 0.025);
+        myText(0.6, 0.75, kBlack, Form("Track Grade: %s", Qualitytitle[q]), 0.025);
+
+        for (int f = 0; f < nFlav; f++)
         {
-            std::string Centrality = m ? Form("Overlay %d %% to %d %%", 10 * cet[2 * c], 10 * cet[2 * c + 1]) : "pp";
-            cout << Centrality << endl;
-            cout << "m: " << m << "c: " << c << endl;
-            for (int d = 0; d < nData; d++)
-            {
-                fi = TFile::Open(Form(files[d], Type[m], c), "READ");
-                cout << Form(files[d], Type[m], c) << endl;
-                //cout << fi << endl;
+            c0->cd();
+            graph = (TH1D *)(fi->Get(Form("IP2D/AntiKt4HI/%s/%s/SipA0", leg[f], Quality[q]))->Clone());
+            //graph = (TH1D *)(fi->Get(Form("IP2D/AntiKt4EMTopo/%s/%s/SipA0", leg[f], Quality[q]))->Clone());
 
-                for (int q = 0; q < nQuality; q++)
-                {
-                    //int q = 13;
-                    TPad *pad0 = (TPad *)c0->cd();
-                    TH1F *h0 = (TH1F *)pad0->DrawFrame(-40, 1e-5, 60, 1);
-                    h0->GetXaxis()->SetTitle("d0 significance");
-                    h0->GetYaxis()->SetTitle("Normalized Fraction");
-                    h0->SetTitle(Form("D0 Significance Templates %s %s", Type[m], data[d]));
-                    h0->Draw();
-                    myText(0.6, 0.8, kBlack, Centrality.c_str(), 0.025);
-                    myText(0.6, 0.7, kBlack, data[d], 0.025);
-                    myText(0.6, 0.75, kBlack, Form("Track Grade: %s", Qualitytitle[q]), 0.025);
-                    
-                    /*TPad *pad1 = (TPad *)c1->cd();
-                    TH1F *h1 = (TH1F *)pad1->DrawFrame(-z0sig, 1e-5, z0sig, 1);
-                    h1->GetXaxis()->SetTitle("d0 significance");
-                    h1->GetYaxis()->SetTitle("Normalized Fraction");
-                    h1->SetTitle(Form("Z0 Significance Templates of %s %s", Type[m], data[d]));
-                    h1->Draw();
-                    myText(0.6, 0.8, kBlack, Centrality, 0.05);
-                    myText(0.6, 0.7, kBlack, data[d], 0.05);
-                    myText(0.2, 0.75, kBlack, Form("Track Grade: %s", Qualitytitle[q]), 0.025);*/
+            graph->Scale(1. / graph->GetSumOfWeights());
+            graph->SetMarkerColor(myColor[f * 3]);
+            graph->SetLineColor(myColor[f * 3]);
+            graph->SetMarkerStyle(1);
+            graph->Draw("SAME");
+            myBoxText(0.7, 0.65 - 0.03 * f, 0.1, myColor[f * 3], 0, legends[f], 0.3, myColor[f * 3], 1, true, 0.03);
 
-                    for (int f = 0; f < nFlav; f++)
-                    {
-                        c0->cd();
-                        graph = (TH1D *)(fi->Get(Form("IP2D/AntiKt4HI/%s/%s/SipA0", leg[f], Quality[q]))->Clone());
+            c1->cd(f + 1);
+            pad1[f] = (TPad *)c1->cd(f + 1);
+            gPad->SetLogy(0);
+            gPad->SetLogz(1);
+            h1[f] = (TH1F *)pad1[f]->DrawFrame(-20, -20, 40, 40);
+            h1[f]->GetXaxis()->SetTitle("d0 significance");
+            h1[f]->GetYaxis()->SetTitle("z0 significance");
+            h1[f]->SetTitle(Form("Z0 and d0 Significance Templates of %s %s", Type[m], data[d]));
+            h1[f]->Draw();
 
-                        graph->Scale(1. / graph->GetSumOfWeights());
-                        graph->SetMarkerColor(myColor[f * 3]);
-                        graph->SetLineColor(myColor[f * 3]);
-                        graph->SetMarkerStyle(1);
-                        graph->Draw("SAME");
-                        myBoxText(0.7, 0.65 - 0.03 * f, 0.1, myColor[f * 3], 0, leg[f], 0.3, myColor[f * 3], 1, true, 0.03);
+            graph2 = (TH2D *)(fi->Get(Form("IP3D/AntiKt4HI/%s/%s/Sip3D", leg[f], Quality[q]))->Clone());
+            //graph2 = (TH2D *)(fi->Get(Form("IP3D/AntiKt4EMTopo/%s/%s/Sip3D", leg[f], Quality[q]))->Clone());
 
-                        /*c1->cd();
-                        graph = (TH1D *)(fi->Get(Form("IP2D/AntiKt4HI/%s/%s/SipZ0", leg[f], Quality[q]))->Clone());
+            graph2->Scale(1. / graph2->GetSumOfWeights());
+            //graph2->SetMarkerColor(myColor[f]);
+            //graph2->SetLineColor(myColor[f]);
+            //graph2->SetMarkerStyle(1);
+            graph2->Draw("SAME colz");
+            myText(0.5, 0.65, kBlack, legends[f], 0.03);
+            myText(0.5, 0.8, kBlack, Centrality.c_str(), 0.03);
+            myText(0.5, 0.75, kBlack, data[d], 0.03);
+            myText(0.2, 0.75, kBlack, Form("Track Grade: %s", Qualitytitle[q]), 0.025);
 
-                        graph->Scale(1. / graph->GetSumOfWeights());
-                        graph->SetMarkerColor(myColor[f]);
-                        graph->SetLineColor(myColor[f]);
-                        graph->SetMarkerStyle(1);
-                        graph->Draw("SAME");
-                        myBoxText(0.7, 0.65 - 0.03 * f, 0.1, myColor[f * 3], 0, leg[f], 0.3, myColor[f * 3], 1, true, 0.03);*/
-                        //template[c][d][q][f]->SetName(Form("%s_%s_%s");
-                    }
-                    c0->SetLogy();
-                    c0->SaveAs(Form("new_%s_%s_SipA0_%s.pdf",data[d],Quality[q],Centrality.c_str()));
-                    //c1->SaveAs(Form("new_%s_%s_SipZ0_%s.pdf",data[d],Quality[q],Type[m]));
-                }
-
-                fi->Close();
-            }
+            c1->cd(nFlav + 1);
+            gPad->SetLogy(1);
+            gPad->SetLogz(0);
+            flav = (TH1D *)(graph2->ProjectionY()->Clone());
+            flav->Scale(1. / flav->GetSumOfWeights());
+            flav->SetMarkerColor(myColor[f * 3]);
+            flav->SetLineColor(myColor[f * 3]);
+            flav->SetMarkerStyle(1);
+            flav->Draw("SAME");
+            myBoxText(0.7, 0.65 - 0.03 * f, 0.1, myColor[f * 3], 0, legends[f], 0.3, myColor[f * 3], 1, true, 0.03);
+            //template[c][d][q][f]->SetName(Form("%s_%s_%s");
         }
+        c0->SetLogy(1);
+        c0->SaveAs(Form("new_%s_%s_SipD0_%s.pdf", data[d], Quality[q], Centrality.c_str()));
+
+        c1->SaveAs(Form("new_%s_%s_SipZ0_3D_%s.pdf", data[d], Quality[q], Type[m]));
+        //}
+
+        fi->Close();
+        //}
     }
+    //}
 }
