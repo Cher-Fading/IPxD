@@ -119,6 +119,7 @@ void Draw_templates()
         h1[nFlav] = (TH1F *)pad1[nFlav]->DrawFrame(-40, 1e-6, 60, 10);
         h1[nFlav]->GetXaxis()->SetTitle("z0 significance");
         h1[nFlav]->GetYaxis()->SetTitle("Normalized Fraction");
+        h1[nFlav]->GetZaxis()->SetTitle("Normalized Fraction");
         h1[nFlav]->SetTitle(Form("Z0 Significance Templates %s %s", Type[m], data[d]));
         h1[nFlav]->Draw();
         gPad->SetLogy(1);
@@ -158,9 +159,9 @@ void Draw_templates()
             //graph2->SetLineColor(myColor[f]);
             //graph2->SetMarkerStyle(1);
             graph2->Draw("SAME colz");
-            graph2->GetZaxis()->SetTitle("Normalized Fraction");
+            //graph2->GetZaxis()->SetTitle("Normalized Fraction");
             graph2->GetZaxis()->SetRangeUser(1e-4,1);
-            graph2->GetZaxis()->SetTitleSize(.15);
+            //graph2->GetZaxis()->SetTitleSize(.15);
             graph2->GetZaxis()->SetLabelSize(.02);
             //c1->cd(f + 1);
             myText(0.5, 0.65, kBlack, legends[f], 0.03);
