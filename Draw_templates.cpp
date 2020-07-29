@@ -85,110 +85,110 @@ void Draw_templates()
     TCanvas *c1 = new TCanvas("c1", "c1");
     c1->Divide(2, 2);
 
-    //for (int m = 0; m < 2; m++)
-    //{
-    int m = 0;
-    int cent_N = m ? cet_N : 1;
-    for (int c = 0; c < cent_N; c++)
+    for (int m = 0; m < 2; m++)
     {
-        std::string Centrality = m ? Form("Overlay %d %% to %d %%", 10 * cet[2 * c], 10 * cet[2 * c + 1]) : "pp";
-        cout << Centrality << endl;
-        cout << "m: " << m << "c: " << c << endl;
-        //for (int d = 0; d < nData; d++)
-        //{
-        int d = 0;
-        fi = TFile::Open(Form(files[d], Type[m], c), "READ");
-        //fi = TFile::Open(files[d], "READ");
-        cout << Form(files[d], Type[m], c) << endl;
-        //cout << fi << endl;
-
-        //for (int q = 0; q < nQuality; q++)
-        //{
-        int q = 13;
-        TPad *pad0 = (TPad *)c0->cd();
-        TH1F *h0 = (TH1F *)pad0->DrawFrame(-20, 1e-5, 40, 1);
-        h0->GetXaxis()->SetTitle("d0 significance");
-        h0->GetYaxis()->SetTitle("Normalized Fraction");
-        h0->SetTitle(Form("D0 Significance Templates %s %s", Type[m], data[d]));
-        h0->Draw();
-        myText(0.6, 0.8, kBlack, Centrality.c_str(), 0.025);
-        myText(0.6, 0.7, kBlack, data[d], 0.025);
-        myText(0.6, 0.75, kBlack, Form("Track Grade: %s", Qualitytitle[q]), 0.025);
-
-        pad1[nFlav] = (TPad *)c1->cd(nFlav + 1);
-        h1[nFlav] = (TH1F *)pad1[nFlav]->DrawFrame(-40, 1e-6, 60, 10);
-        h1[nFlav]->GetXaxis()->SetTitle("z0 significance");
-        h1[nFlav]->GetYaxis()->SetTitle("Normalized Fraction");
-        h1[nFlav]->GetZaxis()->SetTitle("Normalized Fraction");
-        h1[nFlav]->SetTitle(Form("Z0 Significance Templates %s %s", Type[m], data[d]));
-        h1[nFlav]->Draw();
-        gPad->SetLogy(1);
-        myText(0.6, 0.8, kBlack, Centrality.c_str(), 0.025);
-        myText(0.6, 0.7, kBlack, data[d], 0.025);
-        myText(0.6, 0.75, kBlack, Form("Track Grade: %s", Qualitytitle[q]), 0.025);
-
-        for (int f = 0; f < nFlav; f++)
+        //int m = 0;
+        int cent_N = m ? cet_N : 1;
+        for (int c = 0; c < cent_N; c++)
         {
-            c0->cd();
-            graph = (TH1D *)(fi->Get(Form("IP2D/AntiKt4HI/%s/%s/SipA0", leg[f], Quality[q]))->Clone());
-            //graph = (TH1D *)(fi->Get(Form("IP2D/AntiKt4EMTopo/%s/%s/SipA0", leg[f], Quality[q]))->Clone());
+            std::string Centrality = m ? Form("Overlay %d %% to %d %%", 10 * cet[2 * c], 10 * cet[2 * c + 1]) : "pp";
+            cout << Centrality << endl;
+            cout << "m: " << m << "c: " << c << endl;
+            //for (int d = 0; d < nData; d++)
+            //{
+            int d = 0;
+            fi = TFile::Open(Form(files[d], Type[m], c), "READ");
+            //fi = TFile::Open(files[d], "READ");
+            cout << Form(files[d], Type[m], c) << endl;
+            //cout << fi << endl;
 
-            graph->Scale(1. / graph->GetSumOfWeights());
-            graph->SetMarkerColor(myColor[f * 3]);
-            graph->SetLineColor(myColor[f * 3]);
-            graph->SetMarkerStyle(1);
-            graph->Draw("SAME");
-            myBoxText(0.7, 0.65 - 0.03 * f, 0.1, myColor[f * 3], 0, legends[f], 0.3, myColor[f * 3], 1, true, 0.03);
+            //for (int q = 0; q < nQuality; q++)
+            //{
+            int q = 13;
+            TPad *pad0 = (TPad *)c0->cd();
+            TH1F *h0 = (TH1F *)pad0->DrawFrame(-20, 1e-5, 40, 1);
+            h0->GetXaxis()->SetTitle("d0 significance");
+            h0->GetYaxis()->SetTitle("Normalized Fraction");
+            h0->SetTitle(Form("D0 Significance Templates %s %s", Type[m], data[d]));
+            h0->Draw();
+            myText(0.6, 0.8, kBlack, Centrality.c_str(), 0.025);
+            myText(0.6, 0.7, kBlack, data[d], 0.025);
+            myText(0.6, 0.75, kBlack, Form("Track Grade: %s", Qualitytitle[q]), 0.025);
 
-            c1->cd(f + 1);
-            pad1[f] = (TPad *)c1->cd(f + 1);
-            gPad->SetLogy(0);
-            gPad->SetLogz(1);
-            h1[f] = (TH1F *)pad1[f]->DrawFrame(-40, -40, 60, 60);
-            //gStyle->SetTextFont(7);
-            h1[f]->GetXaxis()->SetTitle("d0 significance");
-            h1[f]->GetYaxis()->SetTitle("z0 significance");
-            h1[f]->SetTitle(Form("Z0 and d0 Significance Templates of %s %s", Type[m], data[d]));
-            //h1[f]->Draw();
-
-            graph2 = (TH2D *)(fi->Get(Form("IP3D/AntiKt4HI/%s/%s/Sip3D", leg[f], Quality[q]))->Clone());
-            //graph2 = (TH2D *)(fi->Get(Form("IP3D/AntiKt4EMTopo/%s/%s/Sip3D", leg[f], Quality[q]))->Clone());
-
-            graph2->Scale(1. / graph2->GetSumOfWeights());
-            //graph2->SetMarkerColor(myColor[f]);
-            //graph2->SetLineColor(myColor[f]);
-            //graph2->SetMarkerStyle(1);
-            graph2->Draw("SAME colz");
-            //graph2->GetZaxis()->SetTitle("Normalized Fraction");
-            graph2->GetZaxis()->SetRangeUser(1e-4,1);
-            //graph2->GetZaxis()->SetTitleSize(.15);
-            graph2->GetZaxis()->SetLabelSize(.02);
-            //c1->cd(f + 1);
-            myText(0.5, 0.65, kBlack, legends[f], 0.03);
-            myText(0.5, 0.8, kBlack, Centrality.c_str(), 0.03);
-            myText(0.5, 0.75, kBlack, data[d], 0.03);
-            myText(0.2, 0.75, kBlack, Form("Track Grade: %s", Qualitytitle[q]), 0.025);
-
-            c1->cd(nFlav + 1);
+            pad1[nFlav] = (TPad *)c1->cd(nFlav + 1);
+            h1[nFlav] = (TH1F *)pad1[nFlav]->DrawFrame(-40, 1e-6, 60, 10);
+            h1[nFlav]->GetXaxis()->SetTitle("z0 significance");
+            h1[nFlav]->GetYaxis()->SetTitle("Normalized Fraction");
+            h1[nFlav]->GetZaxis()->SetTitle("Normalized Fraction");
+            h1[nFlav]->SetTitle(Form("Z0 Significance Templates %s %s", Type[m], data[d]));
+            h1[nFlav]->Draw();
             gPad->SetLogy(1);
-            gPad->SetLogz(0);
-            flav = (TH1D *)(graph2->ProjectionY()->Clone());
-            flav->Scale(1. / flav->GetSumOfWeights());
-            flav->SetMarkerColor(myColor[f * 3]);
-            flav->SetLineColor(myColor[f * 3]);
-            flav->SetMarkerStyle(1);
-            flav->Draw("SAME");
-            myBoxText(0.7, 0.65 - 0.03 * f, 0.1, myColor[f * 3], 0, legends[f], 0.3, myColor[f * 3], 1, true, 0.03);
-            //template[c][d][q][f]->SetName(Form("%s_%s_%s");
+            myText(0.6, 0.8, kBlack, Centrality.c_str(), 0.025);
+            myText(0.6, 0.7, kBlack, data[d], 0.025);
+            myText(0.6, 0.75, kBlack, Form("Track Grade: %s", Qualitytitle[q]), 0.025);
+
+            for (int f = 0; f < nFlav; f++)
+            {
+                c0->cd();
+                graph = (TH1D *)(fi->Get(Form("IP2D/AntiKt4HI/%s/%s/SipA0", leg[f], Quality[q]))->Clone());
+                //graph = (TH1D *)(fi->Get(Form("IP2D/AntiKt4EMTopo/%s/%s/SipA0", leg[f], Quality[q]))->Clone());
+
+                graph->Scale(1. / graph->GetSumOfWeights());
+                graph->SetMarkerColor(myColor[f * 3]);
+                graph->SetLineColor(myColor[f * 3]);
+                graph->SetMarkerStyle(1);
+                graph->Draw("SAME");
+                myBoxText(0.7, 0.65 - 0.03 * f, 0.1, myColor[f * 3], 0, legends[f], 0.3, myColor[f * 3], 1, true, 0.03);
+
+                c1->cd(f + 1);
+                pad1[f] = (TPad *)c1->cd(f + 1);
+                gPad->SetLogy(0);
+                gPad->SetLogz(1);
+                h1[f] = (TH1F *)pad1[f]->DrawFrame(-40, -40, 60, 60);
+                //gStyle->SetTextFont(7);
+                h1[f]->GetXaxis()->SetTitle("d0 significance");
+                h1[f]->GetYaxis()->SetTitle("z0 significance");
+                h1[f]->SetTitle(Form("Z0 and d0 Significance Templates of %s %s", Type[m], data[d]));
+                //h1[f]->Draw();
+
+                graph2 = (TH2D *)(fi->Get(Form("IP3D/AntiKt4HI/%s/%s/Sip3D", leg[f], Quality[q]))->Clone());
+                //graph2 = (TH2D *)(fi->Get(Form("IP3D/AntiKt4EMTopo/%s/%s/Sip3D", leg[f], Quality[q]))->Clone());
+
+                graph2->Scale(1. / graph2->GetSumOfWeights());
+                //graph2->SetMarkerColor(myColor[f]);
+                //graph2->SetLineColor(myColor[f]);
+                //graph2->SetMarkerStyle(1);
+                graph2->Draw("SAME colz");
+                //graph2->GetZaxis()->SetTitle("Normalized Fraction");
+                graph2->GetZaxis()->SetRangeUser(1e-4, 1);
+                //graph2->GetZaxis()->SetTitleSize(.15);
+                graph2->GetZaxis()->SetLabelSize(.02);
+                //c1->cd(f + 1);
+                myText(0.5, 0.65, kBlack, legends[f], 0.03);
+                myText(0.5, 0.8, kBlack, Centrality.c_str(), 0.03);
+                myText(0.5, 0.75, kBlack, data[d], 0.03);
+                myText(0.2, 0.75, kBlack, Form("Track Grade: %s", Qualitytitle[q]), 0.025);
+
+                c1->cd(nFlav + 1);
+                gPad->SetLogy(1);
+                gPad->SetLogz(0);
+                flav = (TH1D *)(graph2->ProjectionY()->Clone());
+                flav->Scale(1. / flav->GetSumOfWeights());
+                flav->SetMarkerColor(myColor[f * 3]);
+                flav->SetLineColor(myColor[f * 3]);
+                flav->SetMarkerStyle(1);
+                flav->Draw("SAME");
+                myBoxText(0.7, 0.65 - 0.03 * f, 0.1, myColor[f * 3], 0, legends[f], 0.3, myColor[f * 3], 1, true, 0.03);
+                //template[c][d][q][f]->SetName(Form("%s_%s_%s");
+            }
+            c0->SetLogy(1);
+            c0->SaveAs(Form("new_%s_%s_SipD0_%s.pdf", data[d], Quality[q], Centrality.c_str()));
+
+            c1->SaveAs(Form("new_%s_%s_SipZ0_3D_%s.pdf", data[d], Quality[q], Centrality.c_str()));
+            //}
+
+            fi->Close();
+            //}
         }
-        c0->SetLogy(1);
-        c0->SaveAs(Form("new_%s_%s_SipD0_%s.pdf", data[d], Quality[q], Centrality.c_str()));
-
-        c1->SaveAs(Form("new_%s_%s_SipZ0_3D_%s.pdf", data[d], Quality[q], Type[m]));
-        //}
-
-        fi->Close();
-        //}
     }
-    //}
 }
