@@ -86,13 +86,16 @@ const float cutInt = (cutMax - cutMin) / numCuts;
 const float d0sig = 100;
 const float z0sig = 100;
 
-void compare_templates(bool comp = true, bool plot = true)
+void compare_templates(bool comp = true, bool plot = false)
 {
+    //SetAtlasStyle();
     gErrorIgnoreLevel = kWarning;
     TFile *fi;
     TH1D *graph;
+    TH1D *graphc;
     TH1::AddDirectory(kFALSE);
     int msize = 21;
+    gStyle->SetOptStat(0);
 
     TCanvas *c0 = new TCanvas("c0", "c0");
 
@@ -174,68 +177,146 @@ void compare_templates(bool comp = true, bool plot = true)
     }
     if (comp)
     {
-        for (int q = 0; q < nQuality; q++)
+        c0 = new TCanvas("c0", "c0", 650, 700);
+
+        //gStyle->SetLineWidth(10);
+        //for (int q = 0; q < nQuality; q++)
+        //{
+        int q = 13;
+        for (int f = 0; f < nFlav; f++)
         {
-            //int q = 13;
-            for (int f = 0; f < nFlav; f++)
+            //int f = 0;
+            for (int d2 = 0; d2 < n2; d2++)
             {
-                //int f = 0;
-                for (int d2 = 0; d2 < n2; d2++)
+                //int d2 = 0;
+                for (int PbPb = 0; PbPb < 2; PbPb++)
                 {
-                    for (int PbPb = 0; PbPb < 2; PbPb++)
+                    //int PbPb = 0;
+                    int cent_N = PbPb ? cet_N : 1;
+                    for (int c = 0; c < cent_N; c++)
                     {
-                        int cent_N = PbPb ? cet_N : 1;
-                        for (int c = 0; c < cent_N; c++)
+                        //int c = 0;
+                        std::string Centrality = PbPb ? Form("Overlay %d %% to %d %%", 10 * cet[2 * c], 10 * cet[2 * c + 1]) : "pp";
+                        c0->cd();
+                        TPad *pad1 = new TPad("pad1", "pad1", 0, 0.3, 1, 1);
+                        pad1->SetBottomMargin(0.02);
+                        pad1->Draw();
+                        pad1->SetLogy();
+                        pad1->cd();
+                        gPad->SetTicks(1);
+                        fi = TFile::Open(calibration, "READ");
+                        graphc = (TH1D *)(fi->Get(Form("IP2D/%s/%s/%s/SipA0", jet[1], leg[f], Quality[q]))->Clone());
+                        graphc->Scale(1. / graphc->GetSumOfWeights());
+                        int color = myColor[3 * f];
+                        graphc->SetMarkerColor(color);
+                        graphc->SetLineColor(color);
+                        graphc->SetMarkerStyle(msize);
+                        graphc->SetMarkerSize(0.8);
+                        graphc->GetYaxis()->SetLabelFont(40);
+                        graphc->GetYaxis()->SetLabelSize(0.03);
+                        graphc->GetXaxis()->SetLabelOffset(1.5);
+                        //graphc->GetYaxis()->SetTitleSize(16);
+                        graphc->GetYaxis()->SetTitleFont(40);
+                        graphc->GetXaxis()->SetTitle("d0 significance");
+                        graphc->GetYaxis()->SetTitle("Normalized Fraction");
+                        graphc->GetYaxis()->SetLimits(1e-6, 0.2);
+                        graphc->GetYaxis()->SetRangeUser(1e-6, 0.2);
+                        graphc->GetXaxis()->SetLimits(-40, 60);
+                        graphc->GetXaxis()->SetRangeUser(-40, 60);
+                        graphc->SetTitle(Form("Comparing With Calibration for Different jet pT given Trk pT > %.1f GeV", trkLim[d2]));
+                        graphc->Draw();
+                        myText(0.6, 0.75, kBlack, Form("%s %s", Centrality.c_str(), legends[f]), 0.025);
+                        myText(0.6, 0.7, kBlack, Form(datal2, trkLim[d2], 0.025));
+                        myText(0.6, 0.65, kBlack, Form("Track Grade: %s", Qualitytitle[q]), 0.025);
+                        myBoxText(0.6, 0.8 + 0.03 * n1, 0.1, color, 0, "Calibration", 0.3, color, msize, true, 0.03);
+                        fi->Close();
+                        //h2->Draw("same");
+                        c0->cd();
+                        TPad *pad2 = new TPad("pad2", "pad2", 0, 0, 1, 0.3);
+                        pad2->SetTopMargin(0.03);
+                        pad2->SetBottomMargin(0.22);
+                        pad2->Draw();
+                        pad2->cd();
+                        gPad->SetTicks(1);
+
+                        /*TH1F *h0 = (TH1F *)pad0->DrawFrame(-40, 1e-6, 60, 0.2);
+        h0->GetXaxis()->SetTitle("d0 significance");
+        h0->GetYaxis()->SetTitle("Normalized Fraction");
+        h0->SetTitle(Form("Comparing With Calibration for Different jet pT given Trk pT > %.1f GeV", trkLim[d2]));
+        h0->Draw();*/
+                        //pad0->SetLogy(1);
+
+                        //pad0->cd();
+                        //graphc->Draw("SAME");
+
+                        /*TH1F *h1 = (TH1F *)pad2->DrawFrame(-40, -2, 60, 2);
+        h1->GetXaxis()->SetTitle("d0 significance");
+        h1->GetYaxis()->SetTitle("Ratio new/calibration");
+        //h1->SetTitle(Form("Comparing With Calibration for Different jet pT given Trk pT > %.1f GeV", trkLim[d2]));
+        h1->Draw();
+
+
+        c0->cd();
+        TPad *pad2 = new TPad("pad2", "pad2", 0, 0, 1, 0.3);
+        pad2->cd();
+        pad2->SetTopMargin(0);
+        pad2->Draw();*/
+
+                        //pad2->SetLogy(0);
+
+                        for (int d1 = 0; d1 < n1; d1++)
                         {
-                            TPad *pad0 = (TPad *)c0->cd();
-                            TH1F *h0 = (TH1F *)pad0->DrawFrame(-40, 1e-6, 60, 0.2);
-                            std::string Centrality = PbPb ? Form("Overlay %d %% to %d %%", 10 * cet[2 * c], 10 * cet[2 * c + 1]) : "pp";
-                            h0->GetXaxis()->SetTitle("d0 significance");
-                            h0->GetYaxis()->SetTitle("Normalized Fraction");
-                            h0->SetTitle(Form("Comparing With Calibration for Different jet pT given Trk pT > %.1f GeV", trkLim[d2]));
-                            h0->Draw();
-                            myText(0.6, 0.75, kBlack, Form("%s %s", Centrality.c_str(),legends[f]), 0.025);
-                            myText(0.6, 0.7, kBlack, Form(datal2, trkLim[d2], 0.025));
-                            myText(0.6, 0.65, kBlack, Form("Track Grade: %s", Qualitytitle[q]), 0.025);
-
-
-                            for (int d1 = 0; d1 < n1; d1++)
-                            {
-                                fi = TFile::Open(Form(files, dataType, Type[PbPb], c, ptLim[d1], trkLim[d2]), "READ");
-                                //cout << fi->GetName() << endl;
-                                graph = (TH1D *)(fi->Get(Form("IP2D/%s/%s/%s/SipA0", jet[0], leg[f], Quality[q]))->Clone());
-                                //cout << Form("IP2D/%s/%s/%s/SipA0", jet[0], leg[f], Quality[q]) << endl;
-                                graph->Scale(1. / graph->GetSumOfWeights());
-                                //cout << graph->GetEntries() << endl;
-                                int color = myColor[3 * f];
-                                graph->SetMarkerColor(color + d1 + 1);
-                                graph->SetLineColor(color + d1 + 1);
-                                graph->SetMarkerStyle(msize);
-                                graph->SetMarkerSize(1);
-                                c0->cd();
-                                graph->Draw("SAME");
-                                myBoxText(0.6, 0.8 + 0.03 * d1, 0.1, color + d1 + 1, 0, Form(dataf1, ptLim[d1]), 0.3, color + d1 + 1, msize, true, 0.03);
-                                //c0->SetLogy();
-                                fi->Close();
-                                //return;
-                            }
-                            fi = TFile::Open(calibration, "READ");
-                            graph = (TH1D *)(fi->Get(Form("IP2D/%s/%s/%s/SipA0", jet[1], leg[f], Quality[q]))->Clone());
+                            fi = TFile::Open(Form(files, dataType, Type[PbPb], c, ptLim[d1], trkLim[d2]), "READ");
+                            //cout << fi->GetName() << endl;
+                            graph = (TH1D *)(fi->Get(Form("IP2D/%s/%s/%s/SipA0", jet[0], leg[f], Quality[q]))->Clone());
+                            //cout << Form("IP2D/%s/%s/%s/SipA0", jet[0], leg[f], Quality[q]) << endl;
                             graph->Scale(1. / graph->GetSumOfWeights());
+                            //cout << graph->GetEntries() << endl;
                             int color = myColor[3 * f];
-                            graph->SetMarkerColor(color);
-                            graph->SetLineColor(color);
+                            graph->SetMarkerColor(color + d1 + 1);
+                            graph->SetLineColor(color + d1 + 1);
                             graph->SetMarkerStyle(msize);
-                            graph->SetMarkerSize(1);
-                            graph->Draw("SAME");
-                            myBoxText(0.6, 0.8 + 0.03 * n1, 0.1, color, 0, "Calibration", 0.3, color, msize, true, 0.03);
-                            c0->SetLogy();
-                            c0->SaveAs(Form("CalComp_%s_%s_%s_%s_%d.pdf", Centrality.c_str(), Form(dataf2, trkLim[d2]), Quality[q], leg[f],msize));
+                            graph->SetMarkerSize(0.8);
+                            pad1->cd();
+                            graph->DrawCopy("SAME");
+                            myBoxText(0.6, 0.8 + 0.03 * d1, 0.1, color + d1 + 1, 0, Form(dataf1, ptLim[d1]), 0.3, color + d1 + 1, msize, true, 0.03);
+                            pad2->cd();
+                            graph->Divide(graphc);
+                            pad2->cd();
+                            if (d1 > 0)
+                                graph->Draw("SAME ep");
+                            else
+                            {
+                                graph->GetXaxis()->SetTitle("d0 significance");
+                                graph->GetYaxis()->SetTitle("Ratio new/calibration");
+                                graph->GetYaxis()->SetLabelFont(40);
+                                graph->GetYaxis()->SetLabelSize(0.06);
+                                graph->GetYaxis()->SetTitleFont(40);
+                                graph->GetYaxis()->SetTitleSize(0.06);
+
+                                //graph->GetXaxis()->SetLabelFont(40);
+                                graph->GetXaxis()->SetLabelSize(0.1);
+                                graph->GetXaxis()->SetTitleFont(40);
+                                graph->GetXaxis()->SetTitleSize(0.1);
+                                graph->SetLineWidth(1);
+
+                                graph->GetYaxis()->SetLimits(0, 2);
+                                graph->GetYaxis()->SetRangeUser(0, 2);
+                                graph->GetXaxis()->SetLimits(-40, 60);
+                                graph->GetXaxis()->SetRangeUser(-40, 60);
+                                graph->GetYaxis()->SetTitleOffset(0.7);
+                                graph->Draw();
+                            }
+
+                            //c0->SetLogy();
                             fi->Close();
+                            //return;
                         }
+                        c0->SaveAs(Form("CalComp_%s_%s_%s_%s_%d.pdf", Centrality.c_str(), Form(dataf2, trkLim[d2]), Quality[q], leg[f], msize));
                     }
                 }
             }
         }
     }
+    //}
 }
